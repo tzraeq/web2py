@@ -1,5 +1,6 @@
 /*
 *.pyc
 !.gitignore
+com/baoze/tenxcloud/config.py
 !/com
 !/applications/tools/

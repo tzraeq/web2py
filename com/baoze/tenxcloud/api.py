@@ -18,6 +18,9 @@ def require(url):
 
         return json.loads(e.getvalue())
 
+def getServices(region):
+    return require("https://api.tenxcloud.com/%s/regions/%s/services" % (config.APIVERSION,region))
+
 def getService(region,service):
     return require("https://api.tenxcloud.com/%s/regions/%s/services/%s" % (config.APIVERSION,region,service))
 
