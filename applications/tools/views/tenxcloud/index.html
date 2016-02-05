@@ -1,0 +1,36 @@
+<html>
+    <header>
+        <title>时速云(tenxcloud)容器映射端口列表</title>
+    </header>
+    <body>
+        <table border>
+            {{for region in regions:}}
+            <tr>
+                <td colspan="3">
+                    <h2>{{=region["displayName"] }}</h1>
+                </td>
+            </tr>
+            {{for service in region["services"]:}}
+            <tr>
+                <td colspan="3">
+                    <b>{{=service["name"]}}</b>
+                </td>
+            </tr>
+            {{for port in service["ports"]:}}
+            <tr>
+                <td>
+                    {{=port["protocol"]}}
+                </td>
+                <td>
+                    <a href="http://{{=port["url"]}}" target="_blank">{{=port["url"]}}</a>
+                </td>
+                <td>
+                    {{=port["port"]}}
+                </td>
+            </tr>
+            {{pass}}
+            {{pass}}
+            {{pass}}
+        </table>
+    </body>
+</html>
