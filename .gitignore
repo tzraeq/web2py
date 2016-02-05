@@ -2,4 +2,4 @@
 *.pyc
 !.gitignore
 !/com
-!/applications/tools
+!/applications/tools/
