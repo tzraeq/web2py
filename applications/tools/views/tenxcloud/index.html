@@ -1,31 +1,36 @@
 <html>
     <header>
         <title>时速云(tenxcloud)容器映射端口列表</title>
+        <style>
+            table{border:1px solid;border-collapse:collapse;}
+            tr{border:1px solid}
+            td{border:1px solid}
+        </style>
     </header>
     <body>
-        <table border>
+        <table>
             {{for region in regions:}}
             <tr>
                 <td colspan="3">
                     <h2>{{=region["displayName"] }}</h1>
                 </td>
             </tr>
-            {{for service in region["services"]:}}
+            {{for service in region["service"].select(db.service.ALL):}}
             <tr>
                 <td colspan="3">
                     <b>{{=service["name"]}}</b>
                 </td>
             </tr>
-            {{for port in service["ports"]:}}
+            {{for port in service["port_mapping"].select(db.port_mapping.ALL):}}
             <tr>
                 <td>
                     {{=port["protocol"]}}
                 </td>
                 <td>
-                    <a href="http://{{=port["url"]}}" target="_blank">{{=port["url"]}}</a>
+                    {{=port["port"]}}
                 </td>
                 <td>
-                    {{=port["port"]}}
+                    <a href="http://{{=port["url"]}}" target="_blank">{{=port["url"]}}</a>
                 </td>
             </tr>
             {{pass}}

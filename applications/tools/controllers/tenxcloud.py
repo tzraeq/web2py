@@ -3,9 +3,9 @@
 import json
 
 from com.baoze.tenxcloud import api
-
+'''
 def index():
-    regions = [];
+    regions = []
     regionsDict = api.getRegions()
     if api.KEY_REGIONS in regionsDict:
         for region in regionsDict[api.KEY_REGIONS]:
@@ -24,10 +24,16 @@ def index():
                             serviceObj["ports"].append(pm)
 
     return dict(regions=regions)
+'''
+def index():
+    regions = db().select(db.region.ALL)
 
+    return dict(regions=regions)
 def port():
     region = request.args[0]
     service = request.args[1]
     port = request.args[2]
 
-    return api.getMappedPort(region,service,port)
+    #return api.getMappedPort(region,service,port)
+    rows = db((db.port_mapping.port==int(port))&(db.service.name==service)&(db.region.name==region)).select(db.port_mapping.url)
+    return api.getMappedPortFromServiceUrl(rows[0]["url"])
