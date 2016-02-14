@@ -6,6 +6,21 @@
             tr{border:1px solid}
             td{border:1px solid}
         </style>
+        {{include 'web2py_ajax.html'}}
+        <script>
+            function refresh(){
+                $.ajax({
+                    url:"/{{=request.application}}/{{=request.controller}}/refresh",
+                    success:function(data){
+                        if("ok"==data){
+                            alert("刷新成功")
+                        }else{
+                            alert("刷新失败："+data)
+                        }
+                    }
+                })
+            }
+        </script>
     </header>
     <body>
         <table>
@@ -36,6 +51,13 @@
             {{pass}}
             {{pass}}
             {{pass}}
+        </table>
+        <table>
+            <tr>
+                <td>
+                    <input type="button" value="刷新端口信息" onclick="refresh()"/>
+                </td>
+            </tr>
         </table>
     </body>
 </html>

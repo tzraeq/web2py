@@ -8,6 +8,7 @@ from io import BytesIO
 KEY_REGIONS = "regions"
 KEY_REGION_NAME = "name"
 KEY_REGION_DISPLAY_MAME = "display_name"
+KEY_REGION_STATUS = "status"
 
 KEY_SERVICES = "services"
 KEY_SERVICE_REGION = "region"
