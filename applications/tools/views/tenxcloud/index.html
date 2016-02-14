@@ -2,40 +2,79 @@
     <header>
         <title>时速云(tenxcloud)容器映射端口列表</title>
         <style>
-            table{border:1px solid;border-collapse:collapse;}
-            tr{border:1px solid}
-            td{border:1px solid}
+            .bt{border:1px solid;border-collapse:collapse;}
+            .bt tr{border:1px solid}
+            .bt td{border:1px solid}
         </style>
+        {{include 'web2py_ajax.html'}}
+        <script>
+            function refresh(){
+				showLoading();
+                $.ajax({
+                    url:"/{{=request.application}}/{{=request.controller}}/refresh",
+                    success:function(data){
+						showLoading(false);
+                        if("ok"==data){
+                            alert("刷新成功");
+                        }else{
+                            alert("刷新失败："+data);
+                        }
+                    },
+					error:function(xhr,data){
+						showLoading(false);
+						alert(data);
+					}
+                })
+            }
+			
+			function showLoading(show){
+				if(false == show){
+					$("#loadingImg").css("display","none");
+				}else{
+					$("#loadingImg").css("display","block");
+				}
+			}
+        </script>
     </header>
     <body>
-        <table>
+        <table class="bt">
             {{for region in regions:}}
             <tr>
                 <td colspan="3">
-                    <h2>{{=region["displayName"] }}</h1>
+                    <h2>{{=region.displayName }}</h1>
                 </td>
             </tr>
-            {{for service in region["service"].select(db.service.ALL):}}
+            {{for service in region.service.select(db.service.ALL):}}
             <tr>
                 <td colspan="3">
                     <b>{{=service["name"]}}</b>
                 </td>
             </tr>
-            {{for port in service["port_mapping"].select(db.port_mapping.ALL):}}
+            {{for port in service.portMapping.select(db.portMapping.ALL):}}
             <tr>
                 <td>
-                    {{=port["protocol"]}}
+                    {{=port.protocol}}
                 </td>
                 <td>
-                    {{=port["port"]}}
+                    {{=port.port}}
                 </td>
                 <td>
-                    <a href="http://{{=port["url"]}}" target="_blank">{{=port["url"]}}</a>
+                    <a href="http://{{=port["url"]}}" target="_blank">{{=port.url}}</a>
                 </td>
             </tr>
             {{pass}}
             {{pass}}
             {{pass}}
+        </table>
+        <table>
+            <tr>
+                <td>
+                    <button type="button" onclick="refresh()">刷新端口信息</button>
+                </td>
+				<td>
+					<img id="loadingImg" style="width:16px;height:16px;display:none;" src="/{{=request.application}}/static/images/loading.gif"/>
+				</td>
+            </tr>
         </table>
     </body>
 </html>

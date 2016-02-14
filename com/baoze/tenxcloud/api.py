@@ -8,6 +8,7 @@ from io import BytesIO
 KEY_REGIONS = "regions"
 KEY_REGION_NAME = "name"
 KEY_REGION_DISPLAY_MAME = "display_name"
+KEY_REGION_STATUS = "status"
 
 KEY_SERVICES = "services"
 KEY_SERVICE_REGION = "region"
@@ -19,20 +20,20 @@ KEY_SERVICE_URL = "service_url"
 KEY_PROTOCOL = "protocol"
 
 def require(url):
-        e = BytesIO()
-        curl = pycurl.Curl()
-        curl.setopt(pycurl.URL, url)
-        curl.setopt(pycurl.HTTPHEADER,['username:'+config.USERNAME,'Authorization: token '+config.TOKEN])
-        curl.setopt(pycurl.WRITEFUNCTION, e.write)
-        curl.setopt(pycurl.SSL_VERIFYPEER, 0)
-        curl.setopt(pycurl.SSL_VERIFYHOST, 0)
-        curl.perform()
-        curl.close()
+    e = BytesIO()
+    curl = pycurl.Curl()
+    curl.setopt(pycurl.URL, url)
+    curl.setopt(pycurl.HTTPHEADER,["username:%s" % config.USERNAME,"Authorization: token %s" % config.TOKEN])
+    curl.setopt(pycurl.WRITEFUNCTION, e.write)
+    curl.setopt(pycurl.SSL_VERIFYPEER, 0)
+    curl.setopt(pycurl.SSL_VERIFYHOST, 0)
+    curl.perform()
+    curl.close()
 
-        return json.loads(e.getvalue())
+    return json.loads(e.getvalue())
 
 def getRegions():
-    return require("https://api.tenxcloud.com/%s/regions" % (config.APIVERSION))
+    return require("https://api.tenxcloud.com/%s/regions" % config.APIVERSION)
 
 def getServices(region):
     return require("https://api.tenxcloud.com/%s/regions/%s/services" % (config.APIVERSION,region))

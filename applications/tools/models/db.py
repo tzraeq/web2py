@@ -18,6 +18,7 @@ myconf = AppConfig(reload=True)
 if not request.env.web2py_runtime_gae:
     ## if NOT running on Google App Engine use SQLite or other DB
     db = DAL('mysql://tzraeq:tzraeqww@tzraeq.mysql.pythonanywhere-services.com:3306/tzraeq$test')
+    #db = DAL('mysql://root@127.0.0.1:3306/pythonanywhere')
     #db = DAL(myconf.take('db.uri'), pool_size=myconf.take('db.pool_size', cast=int), check_reserved=['all'])
 else:
     ## connect to Google BigTable (optional 'google:datastore://namespace')
@@ -59,7 +60,7 @@ service = Service()
 plugins = PluginManager()
 
 ## create all tables needed by auth if not custom tables
-auth.define_tables(username=False, signature=False)
+#auth.define_tables(username=False, signature=False)
 
 ## configure email
 mail = auth.settings.mailer
@@ -88,10 +89,6 @@ auth.settings.reset_password_requires_verification = True
 ## >>> rows=db(db.mytable.myfield=='value').select(db.mytable.ALL)
 ## >>> for row in rows: print row.id, row.myfield
 #########################################################################
-
-db.define_table('region',Field('name','string'),Field('displayName','string'),Field('status','string'))
-db.define_table('service',Field('name','string'),Field('region','reference region'))
-db.define_table('port_mapping',Field('protocol','string'),Field('url','string'),Field('port','integer'),Field('service','reference service'))
 
 ## after defining tables, uncomment below to enable auditing
 # auth.enable_record_versioning(db)
