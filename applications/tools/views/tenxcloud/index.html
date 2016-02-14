@@ -16,13 +16,14 @@
 						showLoading(false);
                         if("ok"==data){
                             alert("刷新成功");
+							window.location.reload();
                         }else{
                             alert("刷新失败："+data);
                         }
                     },
 					error:function(xhr,data){
 						showLoading(false);
-						alert(data);
+						alert("刷新失败："+data);
 					}
                 })
             }
